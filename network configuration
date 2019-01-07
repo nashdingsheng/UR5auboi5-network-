@@ -1,0 +1,17 @@
+UR5 network brief 
+For ur5, we must use bridge network congfiguration to have mutual communication between ur5 robot and ubuntu. bridge network is a working mode
+that ubuntu in virtual machine directly utilize the physical netcard. 
+shortly the configuration for ur5 is :
+1.in virtual setting-->networok adapter we choose bridge network.
+2.we use VMnet0 as the communication network, we define it as a bridge network and we choose the bridge destinaion is the name of our network
+  board found in windows network configuration,For my notebook(lenove 拯救者）is :Realtek PCIe GBE Family Controller.
+3.and i also in virtual machone setting options,i choose hardwar-->netwok-->wired-->On-->Options-->IPv4 settings -->by setting 
+  "192.168.1.21    255.255.255.0  192.168.1.1"
+4.then i normaly ping my destination ur5 robot, it  pings successfully. 
+5.then it can work mormally in ROS and motion planning by moveit.
+AUBO-i5 network brief.
+for AUBO-i5 i use NAT network mode and config the VMnet8 IP to "92.168.1.8 and 255.255.255.248 " the  it can use ROS and moveitplatform 
+successfully control the robot.It seems aubo-i5 can run in NAT pattern but UR5 must choose bridge network pattern. 
+
+the target ur5 robot ip is use is "192.168.1.22  and the ip of windows physical netcard is "192.168.1.12"
+                                                                                                    2019-01-07
