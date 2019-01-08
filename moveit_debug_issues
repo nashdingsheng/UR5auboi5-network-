@@ -1,0 +1,6 @@
+now ROS test in three different robot：
+the brand corresponding to the jointModelGroup used for  “moveit::planning_interface::MoveGroupInterface move_group(PLANNING_GROUP)”;
+Aubo----> manupulator_i5
+UR5 ---->manipulator
+franka-->panda_arm
+and these variable can also be derived from robotmodel object by  calling robotmodel->getJointModelNames()
