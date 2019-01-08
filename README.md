@@ -1,2 +1,1 @@
-# UR5auboi5-network-
-difference between ur5 and aubo-i5 network configuration 
+Some simple accumulations for learn ROS_MOVEIT to operate motion planning work on different robot
