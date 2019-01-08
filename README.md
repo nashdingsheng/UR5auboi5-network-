@@ -1,1 +1,1 @@
-Some simple accumulations for learn ROS_MOVEIT to operate motion planning work on different robot
+Some simple accumulations for learning ROS+MOVEIT to do motion planning work on different robots.
