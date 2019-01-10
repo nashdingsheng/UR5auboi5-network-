@@ -5,11 +5,24 @@ Aubo----> manupulator_i5
 UR5 ---->manipulator
 franka-->panda_arm
 and these variable can also be derived from robotmodel object by  calling robotmodel->getJointModelNames()
+******************************************************************************************************************************************
 2.Network  ip change problem 
 when i set the network in ubuntu installed in VMWare, and the network mode is brideged network that is bridged to the netcard Realtek PCIe GBE Family Controller,
 i reboot the robot UR5, i use  'ipconfig' command to check the ip the netcard is not the configured information and definitely can not successfully
 ping the target robot, i know it must be something with the bridged network setting, as to why this phenomenon happens, i do not want to know.
 the solution is to modify the ip to a random ip  here i change "192.168.1.12" to "192.168.2.12" and i use ipconfig once again, the ip is correct
 and i remodify the up to "192.168.1.12" the ipconfig command correctly recogonizes the ip and can ping successfully and defintely can 
-control
- the robot.
+control the robot.
+******************************************************************************************************************************************
+3.Coordinate system issue
+coordinate system issue is not a bottom line issue,but it is a logial issue.
+the UR5 programs we operate on VNC has different coordinate in terms of its base cooridinate and Tcp0 coordinte. 
+For original Coordinate: 
+         base coordinate:  x（deviate the emergency switch) z vertically upright. 
+         TCP0:             y（opposite to a feature point） z  vertical towards the circle surface.
+For ROS coordinate:    
+         base coordinate:  x（closer to the emergency switch) z vertically upright. 
+         TCP0:             x（vertical towards the circle surface.   z the same direction with  the feature point） 
+         ROS coordinate system can be referred by the URDF coordinate system model:
+         https://github.com/ros-industrial/universal_robot/blob/kinetic-devel/ur_description/model.pdf
+Noticing these differences, we will find a lot of differences when debug the motion planning in ROS + MOVEIT and other planning commponent.
