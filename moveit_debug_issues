@@ -1,6 +1,15 @@
+1.Parameter setting:
 now ROS test in three different robot：
 the brand corresponding to the jointModelGroup used for  “moveit::planning_interface::MoveGroupInterface move_group(PLANNING_GROUP)”;
 Aubo----> manupulator_i5
 UR5 ---->manipulator
 franka-->panda_arm
 and these variable can also be derived from robotmodel object by  calling robotmodel->getJointModelNames()
+2.Network  ip change problem 
+when i set the network in ubuntu installed in VMWare, and the network mode is brideged network that is bridged to the netcard Realtek PCIe GBE Family Controller,
+i reboot the robot UR5, i use  'ipconfig' command to check the ip the netcard is not the configured information and definitely can not successfully
+ping the target robot, i know it must be something with the bridged network setting, as to why this phenomenon happens, i do not want to know.
+the solution is to modify the ip to a random ip  here i change "192.168.1.12" to "192.168.2.12" and i use ipconfig once again, the ip is correct
+and i remodify the up to "192.168.1.12" the ipconfig command correctly recogonizes the ip and can ping successfully and defintely can 
+control
+ the robot.
