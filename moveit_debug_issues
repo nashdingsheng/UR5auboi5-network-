@@ -26,3 +26,9 @@ For ROS coordinate:
          ROS coordinate system can be referred by the URDF coordinate system model:
          https://github.com/ros-industrial/universal_robot/blob/kinetic-devel/ur_description/model.pdf
 Noticing these differences, we will find a lot of differences when debug the motion planning in ROS + MOVEIT and other planning commponent.
+4.Path planning pricinpal (自己认为的，至于具体细节还需要查看move_group->plan()内部的Implementation)
+  circumstance 1, robot in a start state and need to move to a target place Pt, the main process i guess is:
+           1.Use the target place to derive 8 inverse solutions, here the solution mainly refers to the six joint angles.
+           2.define which is the best solution among these 8 solutions in accordance with the state of current state.
+           3.when the optimal solution has been decided, use accustomed motion planning and collision checking algorith to derive the best path.
+           
