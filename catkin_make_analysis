@@ -83,4 +83,11 @@ build文件夹中各种文件内部的参数，可以很方便的定位到可能
 1.执行catkin_make
 2.执行catkin_workspace,解析catkin_make的参数同时遍历整个工作空间，把所有的有pakcage.xml的文件夹添加进软件包列表中。
 3.执行每个软件包内包含的CMakeLists.txt文件。
-4.执行catkin_package，解析package.xml文件，载入对应的参数。根据依赖参数，载入对应的软件包参数。根据载入参数生成当前软件包的配置文件。
+4.执行catkin_package，解析package.xml文件，载入对应的参数。根据依赖参数，载入对应的软件包参数。根据载入参数生成当前软件包的配置文件.
+
+还有一点非常重要的语法就是：
+如果你想在CMakeLists.txt中调用cmake的函数find_package(packagename , REQUIRED_COMPONENT xxxxxx=) 这时候是必须要在share/packagename中包含
+pkgConfig.cmake文件。
+至于pkgConfig.cmake文件的作用，还需要再看几篇博文。
+
+
