@@ -1,0 +1,86 @@
+1.a catkin workspace consists of several packages,and each package just has one package.xml that indicates several dependies relations.
+      and one package also have several CMakeLists.txt that is used in constructing project informations.and pakcage is not awlays executable
+      but has different function. for instance package industrial_msgs, this package is provided for generating XXX.h as a standarded header file
+      by the "XXX.msg" file.
+2.for a catkin space, above mentioned 3 parts (develm, build,src) src is derived from the websites and not a generated file. But the files
+      "devel" and "build" are two files that are mainly generated catkin_package funciton.and i would like to brief analyze the component
+      in file "devel"and file"build".
+
+下面说说每个软件包的编译过程。以geometry2/tf2_geometry_msgs这个包为例 
+其CMakeList.txt文件如下
+****************************************************************************************************************************************
+cmake_minimum_required(VERSION 2.8.3)
+project(tf2_geometry_msgs)
+ 
+find_package(orocos_kdl)
+find_package(catkin REQUIRED COMPONENTS geometry_msgs tf2_ros tf2)
+find_package(Boost COMPONENTS thread REQUIRED)
+ 
+# Issue #53
+find_library(KDL_LIBRARY REQUIRED NAMES orocos-kdl HINTS ${orocos_kdl_LIBRARY_DIRS})
+ 
+catkin_package(
+   LIBRARIES ${KDL_LIBRARY}
+   INCLUDE_DIRS include
+   DEPENDS orocos_kdl
+   CATKIN_DEPENDS  geometry_msgs tf2_ros tf2)
+ 
+include_directories(include
+                    ${catkin_INCLUDE_DIRS}
+)
+ 
+link_directories(${orocos_kdl_LIBRARY_DIRS})
+ 
+ 
+ 
+install(DIRECTORY include/${PROJECT_NAME}/
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+)
+catkin_python_setup()
+ 
+if(CATKIN_ENABLE_TESTING)
+ 
+find_package(catkin REQUIRED COMPONENTS geometry_msgs rostest tf2_ros tf2)
+ 
+add_executable(test_geometry_msgs EXCLUDE_FROM_ALL test/test_tf2_geometry_msgs.cpp)
+target_link_libraries(test_geometry_msgs ${catkin_LIBRARIES} ${GTEST_LIBRARIES} ${orocos_kdl_LIBRARIES})
+add_rostest(${CMAKE_CURRENT_SOURCE_DIR}/test/test.launch)
+add_rostest(${CMAKE_CURRENT_SOURCE_DIR}/test/test_python.launch)
+ 
+ 
+if(TARGET tests)
+  add_dependencies(tests test_geometry_msgs)
+endif()
+ 
+endif()
+--------------------- 
+***************************************************************************************************************************************
+首先需要申明cmake版本，cmake_minimum_required(VERSION 2.8)，项目名称(project(XXX)),软件包依赖之类的常见操作。
+然后执行catkin_package这个函数。这个函数做了大量的工作。catkin_package在/opt/ros/kinetic/share/catkin/catkin_package.cmake文件中定义。
+devel和build文件基本上就是有catkin_package生成的。
+这个函数解析package.xml文件，提取出里面的参数，由这些参数给find-pakcage和pkg-configs生成对应的配置文件。这样其他的对这个软件包由依赖的程序就可以方便使用了。
+
+所以分析的重点就变成了catkin_package这个函数。
+对于编译程序最重要的就是头文件的位置和链接库的位置。也就是include directory和library directory。这个程序就是在为软件包配置这些参数。它自动的根据
+依赖关系把依赖的程序的头文件和链接文件的信息放入相对应的变量中。然后根据这些参数和对应的模板文件生成相对应的配置文件。比如/opt/ros/kinetic/share/catkin
+/cmake/templates/pkgConfig.cmake.in生成软件包的pkgConfig.cmake文件。这样这个软件包就可以被其他软件包用find_package找到。
+如果在编译过程中发现有软件包的路径除了问题，那么这时候就需要去debug.很有可能是生产pkgConfig.cmake时的参数不对。最终可能是依赖包中的软件包路径问题，
+有挺多的ros软件包都是把路径写死，这样很不好。
+
+
+由catkin_package生成的文件最终会被安装到devel和build文件夹中。下面就看一下生成了哪些文件。
+下面一般是devel文件的结构。devel是develop的缩写，
+devel目录构成：bin    etc    lib    setup.sh     setup.sh      env.sh    include     setup.bash      _setup_util.py     share
+各个组成的解释：
+bin:bin内是被编译的可执行文件。
+lib：lib是pkg.pc文件和python的库文件。pkg.pc是pkg-config的配置文件.
+include:include用来放置头文件,这里的头文件是生成的头文件，最常见的是.msg文件，即消息通信的.msg格式文件生成标准的C/C++类型的.h头文件。
+share:share是放置生成的pkgConfig.make文件，在cmake文件中find_package就会用到这些文件。
+
+对于build文件夹，生成的是一些编译中的中间文件，比如用来存储一些环境变量之类的文件。这个文件夹的意义不大，如果你在编译过程中出现问题，可以去查看
+build文件夹中各种文件内部的参数，可以很方便的定位到可能出现问题的位置。
+因此总结一下整个编译的过程：
+1.执行catkin_make
+2.执行catkin_workspace,解析catkin_make的参数同时遍历整个工作空间，把所有的有pakcage.xml的文件夹添加进软件包列表中。
+3.执行每个软件包内包含的CMakeLists.txt文件。
+4.执行catkin_package，解析package.xml文件，载入对应的参数。根据依赖参数，载入对应的软件包参数。根据载入参数生成当前软件包的配置文件。
