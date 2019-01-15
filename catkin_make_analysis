@@ -137,3 +137,24 @@ case2:某个包中的package.xml的depend除了上面当进行建立和运行时
     <arg name="pipeline" value="ompl" />
   </include>
 注意：这里的ns="move_group"表示的意思的参数的名称作用域，也就是name space的简写。 
+
+
+
+
+***关于ROS中node节点通信的方式有三种：topic  service  actionlib(是一个增强了的库）
+参考链接：
+     1.https://blog.csdn.net/ZXQHBD/article/details/72846865
+     2.https://www.dis.uniroma1.it/~nardi/Didattica/CAI/matdid/1-ROS-ActionLib.pdf
+
+
+
+
+
+
+
+
+
+
+
+
+
