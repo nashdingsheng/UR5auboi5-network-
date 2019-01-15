@@ -110,5 +110,12 @@ ur_modern_driver这个package中生成的 node2: ur_driver这个可执行文件�
      makfile的基本逻辑机制。
      
 
+对于package的依赖：
+参考：http://wiki.ros.org/catkin/package.xml
+case1:如果对于一个需要软代码编译.运行的package，则package.xml就是该package中sourcecode.cxx需要调用外面库的pakcage，如果编译时调用一般是<duild_depend>xxx</build_depend>
+如果是运行时调用，则是<run_depend>xxx</run_depend>\
+case2:某个包中的package.xml的depend除了上面当进行建立和运行时需要依赖，还有一种情况就是如果package中没有sourcecode.cxx则这时候就是launch文件
+中会启动某个另外包的可执行文件，例如<node name = "xxxx" pkg = "xxxx">......,这里的pkg = “xxxx” 就是需要在该package的package.xml中写进去，
+或者说依赖进去的。
 
 
