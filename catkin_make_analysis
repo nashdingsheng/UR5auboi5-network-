@@ -131,3 +131,9 @@ case2:某个包中的package.xml的depend除了上面当进行建立和运行时
   <include file="$(find ur5_moveit_config)/launch/$(arg pipeline)_planning_pipeline.launch.xml" />
 </launch>
 这里的ompl_planning_pipeline.launch.xml文件就是目标载入参数服务器的参数配置文件。
+
+  <!-- Planning Functionality -->
+  <include ns="move_group" file="$(find ur5_moveit_config)/launch/planning_pipeline.launch.xml">
+    <arg name="pipeline" value="ompl" />
+  </include>
+注意：这里的ns="move_group"表示的意思的参数的名称作用域，也就是name space的简写。 
