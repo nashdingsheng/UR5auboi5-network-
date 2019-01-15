@@ -96,7 +96,19 @@ pkgConfig.cmake文件。
 然后ur_common.launch这个节点其实是启用了node1：robot_state_publiser (这个node是在ROS主框架下(/opst/ros/kinetic/...)下面的可执行文件。 2.以及在
 ur_modern_driver这个package中生成的 node2: ur_driver这个可执行文件。
 
-
+对于链接库，一般在编写CMakeListx.txt的时候，都需要有两个步骤来走：
+    举例说明：
+    1.add_library(ur_hardware_interface
+                  src/ros/controller.cpp
+                  src/ros/hardware_interface.cpp
+                  )
+     首先，目录src开始是从CMakeLists.txt文件所在的目录开始的，即当前编辑的文件的目录。
+     然后就是用src/ros/controller.cpp 和 src/ros/hardware_interface.cpp来生成连接库。但是这两个.cpp调用了大量的ROS别的组件的库,因此还需要添加
+     额外链接别的组建的代码，即2所示：
+     2.target_link_libraries(ur_hardware_interface ${catkin_LIBRARIES})
+     这时候在编译过程中会生成标准的库文件， ur_hard_interface，然后这个链接库可以看成是标准的链接库，被别可执行文件或者库来进行依赖。这是生成
+     makfile的基本逻辑机制。
+     
 
 
 
