@@ -91,3 +91,12 @@ pkgConfig.cmake文件。
 至于pkgConfig.cmake文件的作用，还需要再看几篇博文。
 
 
+分析 ur5_bringup.launch
+这个launch文件其实是启动了ur_common.launch
+然后ur_common.launch这个节点其实是启用了node1：robot_state_publiser (这个node是在ROS主框架下(/opst/ros/kinetic/...)下面的可执行文件。 2.以及在
+ur_modern_driver这个package中生成的 node2: ur_driver这个可执行文件。
+
+
+
+
+
