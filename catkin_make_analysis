@@ -119,3 +119,8 @@ case2:某个包中的package.xml的depend除了上面当进行建立和运行时
 或者说依赖进去的。
 
 
+关于参数服务器：
+1.参数服务器不会因为启动了某个xxx.launch导入了参数，然后当roscore还在的时候，关闭xxx.launch，其参数而消失。事实是不会消失的，参数的命名基本是
+遵循node_name/param_name的规则。 node_name为启动的某个进行的名字，即node_nam.
+
+
