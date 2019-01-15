@@ -145,6 +145,9 @@ case2:某个包中的package.xml的depend除了上面当进行建立和运行时
 参考链接：
      1.https://blog.csdn.net/ZXQHBD/article/details/72846865
      2.https://www.dis.uniroma1.it/~nardi/Didattica/CAI/matdid/1-ROS-ActionLib.pdf
+从某种角度来说，不管是topic/service/actionlib方式，他们只是一种通信模式，只是简单的把一些参数传递给另外的node或者说是server.真正
+执行操作是server节点本身的内部数据和内部逻辑，从而完成复杂的计算，例如完成复杂的路径规划(motion planning)的计算。 轨迹规划是带时间
+信息，速度，加速度等信息的路径规划。
 
 
 
