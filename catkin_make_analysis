@@ -151,6 +151,58 @@ case2:某个包中的package.xml的depend除了上面当进行建立和运行时
 
 
 
+关于ROS系统下，利用pluginlib技术的几点理解和注意事项：
+1.offical explanation: http://wiki.ros.org/pluginlib
+2.其实就是对Link1中的几点总结：
+     如果一个package需要引用某libxxxx,必须再package的唯一的那一个package.xml中利用
+     <export>
+     <package_name plugin = {   the plugin description file }
+     </export>
+  the plugin description file is a file that tells the ROS system or the pluginlib library  
+                         1.where the location of the lib is
+                         2.the construction of the lib is .
+   for example: a snip of file as a plugin descrition file  " default_capabilities_plugin_description.xml   " :
+   <library path="libmoveit_move_group_default_capabilities">
+
+  <class name="move_group/MoveGroupCartesianPathService" type="move_group::MoveGroupCartesianPathService" base_class_type="move_group::MoveGroupCapability">
+    <description>
+      Computing straight line Cartesian paths with collision checking via a ROS service
+    </description>
+  </class>
+
+  <class name="move_group/MoveGroupExecuteService" type="move_group::MoveGroupExecuteService" base_class_type="move_group::MoveGroupCapability">
+    <description>
+      Allow execution of previously computed paths via a ROS service
+    </description>
+  </class>
+
+  <class name="move_group/MoveGroupExecuteTrajectoryAction" type="move_group::MoveGroupExecuteTrajectoryAction" base_class_type="move_group::MoveGroupCapability">
+    <description>
+      Allow execution of previously computed trajectories via a ROS action
+    </description>
+  </class>
+   ...
+   
+   当然关于这个description文件，我们也是可以再moveit_ros/move_group目录下的CMakeLists.txt做相应的解读：其中有一点就是说明这个lib或者说
+   这个plugin是由哪些源文件生成的，我摘取下来，如下：
+   
+   
+  51     add_library(moveit_move_group_default_capabilities
+  52     src/default_capabilities/move_action_capability.cpp
+   .     src/default_capabilities/plan_service_capability.cpp
+   .     src/default_capabilities/execute_trajectory_action_capability.cpp
+   .     src/default_capabilities/query_planners_service_capability.cpp
+         src/default_capabilities/kinematics_service_capability.cpp
+         src/default_capabilities/state_validation_service_capability.cpp
+         src/default_capabilities/cartesian_path_service_capability.cpp
+         src/default_capabilities/get_planning_scene_service_capability.cpp
+         src/default_capabilities/apply_planning_scene_service_capability.cpp
+         src/default_capabilities/clear_octomap_service_capability.cpp
+  )
+
+
+
+
 
 
 
