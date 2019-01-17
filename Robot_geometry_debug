@@ -1,0 +1,6 @@
+1.关于四元数和旋转角度以及对应的旋转轴的关系不是简单相等，而是需要有一个简单的变换。
+    roate_angle = alpha,  unit_directional_vector = (direc_x,direc_y,direcz) then:
+    w=cos((np.rad2deg(alpha)/2)*pi/180)
+    x=direc_x*sin((np.rad2deg(alpha)/2)*pi/180)
+    y=direc_y*sin((np.rad2deg(alpha)/2)*pi/180)
+    z=direc_z*sin((np.rad2deg(alpha)/2)*pi/180) 
