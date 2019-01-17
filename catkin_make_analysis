@@ -201,6 +201,41 @@ case2:某个包中的package.xml的depend除了上面当进行建立和运行时
   )
 
 
+关于catkin config extend ..............的作用：？
+一般一个catkin space通过catkin config指令打出来的信息是这样的：
+而在我们
+
+    Profile:                     default
+    Extending:        [explicit] /opt/ros/kinetic
+    Workspace:                   /home/dingsheng/ws_move_franka
+    -------------------------------------------------------------------
+    Source Space:       [exists] /home/dingsheng/ws_move_franka/src
+    Log Space:         [missing] /home/dingsheng/ws_move_franka/logs
+    Build Space:        [exists] /home/dingsheng/ws_move_franka/build
+    Devel Space:        [exists] /home/dingsheng/ws_move_franka/devel
+    Install Space:      [unused] /home/dingsheng/ws_move_franka/install
+    DESTDIR:            [unused] None
+    -------------------------------------------------------------------
+    Devel Space Layout:          linked
+    Install Space Layout:        None
+    -------------------------------------------------------------------
+    Additional CMake Args:       -DCMAKE_BUILD_TYPE=Release
+    Additional Make Args:        None
+    Additional catkin Make Args: None
+    Internal Make Job Server:    True
+    Cache Job Environments:      False
+    -------------------------------------------------------------------
+    Whitelisted Packages:        None
+    Blacklisted Packages:        None
+    -------------------------------------------------------------------
+
+    An important property which deserves attention is the summary value labeled Extending. 
+    This describes other collections of libraries and packages which will be visible to your workspace. 
+    This is process called “workspace chaining.” The value can come from a few different sources, 
+    and can be classified in one of the three following ways:
+          1.No chaining
+          2.implicit chaining via CMAKE_PREFIX_PATH environment or cache variable.
+          3.explicit chaining via cmake config --extend
 
 
 
