@@ -12,4 +12,21 @@
 transform_datatype.h中找到，然后最基本的数据类型是保存在tf/LinearMath中，这里的基本数据类型主要有：  
      Matrix3x3.h  quadwword.h  Scalar.h  Vector3.h  MinMax.h  Quaternion.h  Transform.h
 对于自己数据类型的构造直接找对应.h中的构造函数，对于不同之间的转换，相对复杂的转换，从transform_datatype.h寻找。
-   
+
+
+3.由于ROS中，对于函数move_group.settargetplace(geometry_msgs::Pose)这个Pose是基于base到ee_link的转换，如果享用VNC软件来比较运动轨迹的不同，这时候
+就需要统一同一个姿态，因此根据ROS这个函数两个坐标系的不同，我们需要确定ee_link坐标系和tool0坐标系的关系，根据ROS官方提供的UR5_dh_model.pdf
+假设等式模型是：
+     POINTtool0 = [ transform matrix]POINTee_link
+这个转换关系是根据ur5.urdf.xacro文件中，
+关于文字描述是： 由于tool0和ee_link两个坐标系是相同原点，根据UR5的  model.pdf，可以得出其旋转顺序是
+ee_link----->tool0: ee_link坐标系首先绕着Z轴旋转-pi/2,然后在旋转完之后的坐标系基础上，再绕x轴旋转-pi/2
+tool0 ------>ee_link：tool0坐标系首先绕x轴旋转pi/2，然后在旋转完之后的基础上，再绕着z轴旋转pi/2
+因此
+transform matrix（ee_link--->tool0） = [1       0              0              0   ][cos(-pi/2)        sin(-pi/2)        0           0]
+                                       [0      cos(-pi/2)    sin(-pi/2)      0    ][-sin(-pi/2)       cos(-pi/2)        0           0]
+                                       [0      -sin(-pi/2)   cos(-pi/2)      0    ][0                  0                1           0]
+                                       [0       0            0               1    ][0                  0                0           1]
+如果对tool0 转向坐标系ee_link，可以通过上述的顺序求出来，同时也可以直接对上面矩阵求解逆矩阵。
+
+ 
