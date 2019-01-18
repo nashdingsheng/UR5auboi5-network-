@@ -2,6 +2,26 @@
         ：但是对于aubo在器示教器上读取的数据，是通过z轴，y轴，x轴 分别旋转rz,ry,rx的顺序旋转，然后这个求出来的矩阵，是基座标转向末端tool0坐标系
         的转换矩阵，这两点区别一定要注意。
         当然：UR5 VNC程序上的坐标x,y,z和aubo示教器上的坐标x,y,z是表示末端坐标系原点相对于基座标系的坐标，这两个是一样的。
+        
+        AUBO之前总结的文档：
+        Aubo机械手相关技术细节：
+           1.示教器显示的内容：X,Y,Z,RX,RY,RZ ，如果此时目标选择坐标系C1,参考坐标系选择C2，则表示的是：  （X,Y,Z）表示坐标系C1的原点在C2坐标系下面的坐标，
+           （RX,RY,RZ）表示的是坐标系C2按照z轴，y轴，x轴分别旋转角度RZ,RY,RX使得C2坐标系和C1坐标系三个轴是通向的。这一点要非常明确。
+           2.Aubo机械手中配置TCP时候，都是基于相对flange的，这时候填入的参数(X,Y,Z,RX,RY,RZ)分别表示的是flange按照Z,Y,X这样的顺序旋转使得flange和TCP三轴通向，
+           这里就是坐标系平行。
+           3，坐标系旋转性质，如果知道坐标系C1转C2的单应矩阵，则关于原点矢量具有一下结论，HOMO(C12C2)中的偏移矢量记HOMO(C1C2).move  为 
+           -1*HOMO(C1C2).trans*HOMO(C2C1).move   
+           同理
+           HOMO(C22C1)中的偏移矢量记HOMO(C2C1).move  为 
+           -1*HOMO(C2C1).trans*HOMO(C1C2).move
+           3.坐标系C1然后轴ABCDEF顺序分别以角度(Ra,Rb,Rc,Rd,Re,Rf)旋转到C2
+           ,则C2肯定可以按照轴FEDCBA顺序分别以角度(Rf Re Rd, ,Rc Rb  Ra, , ,) 旋转到C1
+           这个结论完全可以按照欧拉角的Rx，Ry，Rz来证明  因为(RxRyRz)的逆矩阵 就是C2转C1的方法 则等于RZ的逆矩乘Ry的逆乘以Rx的逆， 而例如反向Rx旋转就是Rx的转置，
+           同时也是其逆矩阵。
+
+
+
+        
 
 1.关于四元数和旋转角度以及对应的旋转轴的关系不是简单相等，而是需要有一个简单的变换。
     roate_angle = alpha,  unit_directional_vector = (direc_x,direc_y,direcz) then:
