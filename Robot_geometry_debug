@@ -30,5 +30,17 @@ transform matrix（ee_link--->tool0） = [1       0              0              
                                        [0      -sin(-pi/2)   cos(-pi/2)      0    ][0                  0                1           0]
                                        [0       0            0               1    ][0                  0                0           1]
 如果对tool0 转向坐标系ee_link，可以通过上述的顺序求出来，同时也可以直接对上面矩阵求解逆矩阵。
-
+     简要代码：
+     homo_tr = quater2homo([-0.4152,-0.2265,0.422,0.7733])  #参数描述的是ee_link对应的姿态，这个姿态是ee_link转基座标的参数，切记不是
+     #基座标转ee_link的转换
+     rx,ry,rz =np.array([-np.pi/2, 0, -np.pi/2])
+     print(rx,ry,rz)
+     matx = [[1,0,0],[0,np.cos(rx),np.sin(rx)],[0,-np.sin(rx), np.cos(rx)]]
+     maty = [[np.cos(ry), 0, -np.sin(ry)],[0,1,0],[np.sin(ry),0,np.cos(ry)]]
+     matz = [[np.cos(rz), np.sin(rz),0],[-np.sin(rz), np.cos(rz),0],[0,0,1]]
+     modify_matrix = np.dot(matx,np.dot(maty,matz)) #因此modify_matrix就是表示ee_link坐标系转tool0坐标系
+     posture_matrix = np.dot(homo_tr,np.linalg.inv(modify_matrix)) #posture_matrix就是当前的tool0相对于base坐标系的转换矩阵，反向转换求逆即可
+     
+     vc_ma = np.array(num_obj.rot_vec2mat([1.4416,1.4255,-1.9989])) //通过VNC上读取的旋转矢量求解出tool0相对于base坐标系的转换矩阵，两则是一致的。
+     
  
