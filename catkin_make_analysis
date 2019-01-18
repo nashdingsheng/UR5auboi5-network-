@@ -1,3 +1,9 @@
+Debug生成项目指令：   catkin_make --cmake-args -DCMAKE_BUILD_TYPE:STRING=Debug
+
+
+
+
+
 1.a catkin workspace consists of several packages,and each package just has one package.xml that indicates several dependies relations.
       and one package also have several CMakeLists.txt that is used in constructing project informations.and pakcage is not awlays executable
       but has different function. for instance package industrial_msgs, this package is provided for generating XXX.h as a standarded header file
