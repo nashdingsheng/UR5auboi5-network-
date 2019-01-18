@@ -4,3 +4,12 @@
     x=direc_x*sin((np.rad2deg(alpha)/2)*pi/180)
     y=direc_y*sin((np.rad2deg(alpha)/2)*pi/180)
     z=direc_z*sin((np.rad2deg(alpha)/2)*pi/180) 
+
+
+
+
+2.对于ROS里面的各种集合变换，从源代码角度而言，用的是repository : ros_planning/geometry   里面核心的模块便是tf模块，所以常见的变换可以从
+transform_datatype.h中找到，然后最基本的数据类型是保存在tf/LinearMath中，这里的基本数据类型主要有：  
+     Matrix3x3.h  quadwword.h  Scalar.h  Vector3.h  MinMax.h  Quaternion.h  Transform.h
+对于自己数据类型的构造直接找对应.h中的构造函数，对于不同之间的转换，相对复杂的转换，从transform_datatype.h寻找。
+   
