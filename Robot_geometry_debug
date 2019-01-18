@@ -1,3 +1,5 @@
+****重要：对于UR5 VNC上面的旋转矢量描述的是： 末端坐标系tool0到基座标系的转换矩阵对应的旋转矢量信息。切记切结。
+
 1.关于四元数和旋转角度以及对应的旋转轴的关系不是简单相等，而是需要有一个简单的变换。
     roate_angle = alpha,  unit_directional_vector = (direc_x,direc_y,direcz) then:
     w=cos((np.rad2deg(alpha)/2)*pi/180)
