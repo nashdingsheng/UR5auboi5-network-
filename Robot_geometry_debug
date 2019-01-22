@@ -67,3 +67,34 @@ transform matrix（ee_link--->tool0） = [1       0              0              
      vc_ma = np.array(num_obj.rot_vec2mat([1.4416,1.4255,-1.9989])) //通过VNC上读取的旋转矢量求解出tool0相对于base坐标系的转换矩阵，两则是一致的。
      
  
+ 由于考虑到ROS平台,UR5DH model和UR5自带程序的不同，因此在坐标系上做了简单的修改，修改项如下所示：
+ 修改文件： ur5.urdf.xcaro 
+ 一共有两处修改项：
+ 第一项：
+            1.<joint name="${prefix}shoulder_pan_joint" type="revolute">
+            2.     <parent link="${prefix}base_link" />
+            3.     <child link = "${prefix}shoulder_link" />
+            5.     <origin xyz="0.0 0.0 ${shoulder_height}" rpy="0.0 0.0 ${pi}" />
+            6.     <axis xyz="0 0 1" />
+            7.     <xacro:unless value="${joint_limited}">
+            8.       <limit lower="${-2.0 * pi}" upper="${2.0 * pi}" effort="150.0" velocity="3.15"/>
+             第5行本来的代码是：
+              <origin xyz="0.0 0.0 ${shoulder_height}" rpy="0.0 0.0 0.0" />这是对基坐标系进行过一次180度旋转。
+ 第二项： 
+            1.<joint name="${prefix}ee_fixed_joint" type="fixed">
+            2.   <parent link="${prefix}wrist_3_link" />
+            3.  <child link = "${prefix}ee_link" />
+            4. <origin xyz="0.0 ${wrist_3_length} 0.0" rpy="${pi/-2.0} 0.0  0.0  " />
+            5.    </joint>
+            第4行的代码是：
+            <origin xyz="0.0 ${wrist_3_length} 0.0" rpy="0.0 0.0 ${pi/2.0}" />
+            这里这样修改的原因是ROS提供的DH Model是有别于正常我们约定的。
+            DH model参考链接为：
+            https://github.com/nashdingsheng/universal_robot/blob/kinetic-devel/ur_description/model.pdf
+          
+    
+
+              
+              
+              
+   
