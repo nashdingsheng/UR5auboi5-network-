@@ -4,3 +4,15 @@
 [ERROR] [1548146313.869590428]: RRTConnect: Motion planning start tree could not be initialized!
 也就是说，当一次规划找不到解地时候，进行出现RRTConnect:Motion planning start tree 不能够正确初始化地问题。
 这就需要进行看原因了。
+
+一个现象和一个实验，以及一个简单地假设：
+现象：
+    [ERROR] [1548147238.247478629]: 
+    Invalid Trajectory: start point deviates from current robot state more than 0.01
+    joint 'shoulder_pan_joint': expected: -1.94401, current: -2.34651
+ 现象地缘由是因为刚开始我看到了这么一个现象，因此我验证了一个现象，这个现象是合理地。
+ 问题描述：
+ 机器人在规划时候，停留在点A（这里用数学符号描述，这里点A是对应一组joint space的数值），然后确定目标点，在调用完规划函数的：move_group.plan(my_plan)
+ 函数的时候，这时候会但会一系列的路点，此时假设路点有N个，i=1,2,...N. 那么非常肯定的是点A是第1个路点。假设当运行完成规划函数后，机器人动了，但是路点还没有
+ 动。那么机器人此时已经到达点C了，因此我们就不能做从点A到点B的规划，机器人检查在驱动其运动时候的当前时刻机器人关机角和第一个路点关机角不一致，一般系统
+ 或者自己可以设定一个阈值，大于这个阈值就说明机器人已经提前运动了，那么此次的规划就不能正常进行。
