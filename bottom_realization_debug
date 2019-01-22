@@ -1,0 +1,6 @@
+当经常性地出现：
+[ WARN] [1548146313.870937466]: Fail: ABORTED: No motion plan found. No execution attempted.
+就会出现：
+[ERROR] [1548146313.869590428]: RRTConnect: Motion planning start tree could not be initialized!
+也就是说，当一次规划找不到解地时候，进行出现RRTConnect:Motion planning start tree 不能够正确初始化地问题。
+这就需要进行看原因了。
