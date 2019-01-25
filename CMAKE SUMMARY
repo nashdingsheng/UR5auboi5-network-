@@ -1,0 +1,28 @@
+As already mentioned CMAKE is not desigend to do the buid itself which can be used by real native build tool,hence you need to choose such
+tool(s) and install it if needed.Option -G<generator-name> can be used to specify what type of generator will be run.if no such option present CMAKE will 
+use default generator(e,g Unix Makefiees on *nix platforms).
+TOOLS support cmake are:
+    1. generator
+    2. compiler
+
+
+
+CMake states
+3.1   configure step:  根据cmake本身程序，准备好缓存问及那CMakeCache.txt文件，里面包含编译器，连接器等一系列的tool的中间信息。
+      On this step CMake will parse top level CMakeLists of source tree and create CMakeCache.txt file with cache variables.Differnt types of variables 
+      will be described further in details.
+      For CMAKE-GUI(就是windows上用的cmake软件） this step triggered by clicking on Configure button.For CMake command-line this step is combined
+      with generate step so terms configure and generate will be used interchangeably.the end of this step expressed by Confifigure done message from CMake.
+3.2   generate step: 
+      on this step CMake will generate native build tool files using information from CMakeLists.txt and variables from CMakeCache.txt. For CMake-GUI this step 
+      triggered by clicking on Generate button. For CMake command-line this step is combined with configure step.The end of this step expressed by 
+      Generating done message from CMAKE.
+      
+      CMAKE listfiles
+      There are several places where CMake code can live: 也就是说在Linux开发过程中，这里提到的CMake code就是指代的是两类文件，第一类是CMakelists.txt
+      第二类是*.cmake.只有这两种格式。CMakelists.txt这个文件是在编译时候用的，*.cmake其实就是一个脚本文件，其实可以在任何时候使用，但是最常用的时候
+      就是以findXXX.cmake和XXXconfig.cmake形式，作为脚本语言让CMakeLists.txt里面的command来确定文件位置和依赖关系的。
+        1.CMakelists.txt listfiles loaded by add_subdirectory command will help you to ccreate source/binary tree.This is a skeleton of your project.
+        2.*.cmake作为脚本语言，*.cmake modules help you to organize/reuse CMake code.
+        3.CMake scripts can be executed by cmake -p and help you to solve problems in cross-platform fashion without relying on system specific
+        tools like bash or without introducing external tool dependency like python.
