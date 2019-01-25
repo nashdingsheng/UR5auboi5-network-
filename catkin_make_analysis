@@ -11,6 +11,22 @@ Debug生成项目指令：   catkin_make --cmake-args -DCMAKE_BUILD_TYPE:STRING=
 2.for a catkin space, above mentioned 3 parts (develm, build,src) src is derived from the websites and not a generated file. But the files
       "devel" and "build" are two files that are mainly generated catkin_package funciton.and i would like to brief analyze the component
       in file "devel"and file"build".
+   首先需要明确的一点是，cmake本身不提供任何搜索库的便捷方法。所有收索库并给变量赋值的操作必须由cmake代码完成，比如下面将要提到一个FindXXX.cmake和
+   XXXConfig.cmake.只不过，库的作者通常会提供这两个库，一方便使用者调用。
+   
+   find_package采用两种模式搜索库：
+   Module模式：搜索CMAKE_MODULE_PATH制定路径下的FindXXX.cmake文件，执行该文件从而找到XXX，具体查找库并给XXX_INCLUDE_DIRS和XXX_LIBRARIES两个
+   变量进行赋值的操作由FinfXXX.cmake模块完成。
+   Config模式：搜索XXX_DIR制定路径下的XXXConfig.cmake,执行该文件从而找到XXX库。其中具体查找库并给XXX_INCLUDE_DIRS和XXX_LIBRARIES两个变量赋值的
+   操作由XXXConfig.cmake模块。
+   
+   
+   简要概括C++编译源代码的一般步骤：
+      1./configutr 生成makefile文件
+      2make   利用生成的makefile文件，对程序进行编译
+      3make install  利用生成的makefile文件，对程序进行安装
+
+
 
 下面说说每个软件包的编译过程。以geometry2/tf2_geometry_msgs这个包为例 
 其CMakeList.txt文件如下
