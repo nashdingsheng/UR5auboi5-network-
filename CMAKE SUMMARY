@@ -14,7 +14,14 @@ its main method to own these excellent prokect manage ability.
           *Variable for CPack
       systematic tool does with other systematic tools. Though it is complicated and boring but exactly can halp us the settle many realistic
       issues, for instance cmake. i think CMAKE is a software but also it is a analyzer that analyizes a lot of script.
-
+      Executable and libraries are defined using the add_executable() and add_library() commands. The resulting binaryfiles
+      have appropriate prefixes,suffixes,and extensions for the platform targeted. Dependencies between binary target are expressed
+      using the command target_link_libraries() command:
+         add_library(archive archive.cpp zip.cpp lzma.cpp)
+         add_executable(zipapp zipapp.cpp)
+         target_link_libraries(zipapp archive)
+         
+         
 
 
 
