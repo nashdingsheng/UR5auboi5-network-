@@ -1,3 +1,62 @@
+Anyway, we need to trust the official documentations: https://gitlab.kitware.com/cmake/community/wikis/Home#tutorials-1
+i have never read the source code of cmake, it is complicated and challenging for me i think. but i need to brief understand 
+its main method to own these excellent prokect manage ability.
+     1.when i encounter so many varibale that is not assigned in common variable assignment ,where it comes from, it comes from the CMAKE 
+     and a brief introductin comes with : https://cmake.org/cmake/help/latest/manual/cmake-variables.7.html
+     CMAKE as a software that frequently does with the bottom tools, gcc emacs,gdb,system modules,so the variable here we can divide into 
+     7 kinds.  
+          *Variable that Provide Information.
+          *Variables that Change behavior
+          *Variables that Describe the system
+          *Variables that Controlthe Build
+          *Variables for Languages
+          *Variable for CTest
+          *Variable for CPack
+      systematic tool does with other systematic tools. Though it is complicated and boring but exactly can halp us the settle many realistic
+      issues, for instance cmake. i think CMAKE is a software but also it is a analyzer that analyizes a lot of script.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 As already mentioned CMAKE is not desigend to do the buid itself which can be used by real native build tool,hence you need to choose such
 tool(s) and install it if needed.Option -G<generator-name> can be used to specify what type of generator will be run.if no such option present CMAKE will 
 use default generator(e,g Unix Makefiees on *nix platforms).
