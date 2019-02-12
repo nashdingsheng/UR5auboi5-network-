@@ -1,4 +1,21 @@
 Debug生成项目指令：   catkin_make --cmake-args -DCMAKE_BUILD_TYPE:STRING=Debug
+    
+    关于替代二进制安装，编译轨迹规划库源代码的替代方法
+    关于修改替代moveit_core核心组件的方法，1.修改掉moveit_coreConfig.cmake文件的文件名字，目的是为了Moveit_core不从这里启动，然后在各个与
+    pakcage.xml相同深度的CMakeLists.txt中，由于find_package()其实就是寻找xxxConfig.cmake文件，由于已经修改了名字，将找不到目标链接库
+    根据自己生成出来的，根据自己需要参数配置(比如debug模式)的moveit_core库的路径设置给cmake变量，这里的设置是以package为单位的，
+    比如在ur_kinematic 的ROS pakcage中的CMakeLists.txt中，在find_package()语句之前添加
+    set(move_core_DIR "~/moveit_source_install/devel/share/moveit_core/cmake")因为目录~/moveit_source_install/devel/share/moveit_core/cmake
+    就包含了自己编译出来的Moveit_core下面的一系列库文件，关于具体是哪些库文件，打开moveit_coreConfig.cmake文件就可以很明确的查看到。
+    
+    如果需要用debug模式的node,比如这里我启动launch文件roslaunch ur5_moveit_config ur5_moveit_planning_execution.launch
+    其中文件ur5_moveit_planning_execution.launch文件中需要启动 node move_group可执行文件，本来应该是直接设置好启动路径的
+    但由于我不知道本来应该的做法，我就直接对在目录/opr/ros/kinetic/...下面包含的move_group可执行文件进行名字的修改，然后
+    重新source ~/moveit_source_install/devel/setup.bash这就是表明，launch文件是能够在source完之后的环境中找到目标的node文件的。
+    
+    已经验证 debug用户代码，debug moveit_core库文件，和另外一个ros别的release库文件，这三部链接是可以链接成功的，因为我能按照正常逻辑
+    来控制UR5机器人，因此需要明确release和debug的不同程序组件，.dll .lib .a  .so理论上在同一个特定的操作系统上是能够完成链接工作的。
+    
 
 
 
