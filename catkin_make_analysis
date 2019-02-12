@@ -282,8 +282,11 @@ case2:某个包中的package.xml的depend除了上面当进行建立和运行时
          虽然库的作者一般会提供这这两个文件，但也会遇到安装完毕之后找不到好的清苦康。
          当我们在cmake命令之后，Cmake会读取执行CMakeLists.txt中的代码。当执行
          find_package()这条命令之后，Cmake就会从某些路径中查找这两个文件。
-
-
+         
+       **** 在一个package进行编译cmake的过程中，cmake的变量的生命周期是整个cmake过程，因此不需要每次都进行诸如find_package(catkin REQUIRED
+       MODULE roscpp rospy moveit_core ....)诸类的包的重查找，而是直接在CMakeLists.txt中直接利用之前find的结果，这里的结果就是一些环境
+       变量，例如catkin_INCLUDE_DIRIES  catkin_LIBRARIES,直接可以拿来做target_link_libraries（）这些脚本函数的参数数据。关于自源代码编译
+       的库文件，根据上面杂记就是修改xxxConfig.cmake的脚本文件。
 
 
 
