@@ -1,0 +1,4 @@
+ctags:http://ctags.sourceforge.net/
+ctags with vim:https://andrew.stwrt.ca/posts/vim-ctags/    
+        make "tags" file in the first place.
+        command:   ctrl+]  go to definition or declaration  and  ctrl+t(back to previous source file]
