@@ -1,0 +1,8 @@
+1.Fully to  understand the Four different stateSpace: 
+    SE(3) A state in SE(3): position = (x, y, z), quaternion = (x, y, z, w) 
+    SE(2) A state in SE(2): (x, y, yaw) 
+    SO(3) A State space sampler for SO(3), using quaternion representation  
+    SO(2) A state space,a rotation yaw to repsent.
+ When it  comes to the real robot motion palnning,  i no longer can say that for a complete planing, there  no longer is not a problem
+ of planning two points in euclidean space , but a actual SE(3) state0(moving start SE(3) state ) to SE(3)(goal state) state1. It has been
+ more complete from the perspective of math and the realistic problem.
