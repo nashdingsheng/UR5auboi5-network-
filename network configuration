@@ -1,3 +1,8 @@
+当前UR5的IP地址(楼上调试那台不是实验室那台)： 192.168.1.23
+          密码：  12345678    ---20190329
+
+
+
 UR5 network brief 
 For ur5, we must use bridge network congfiguration to have mutual communication between ur5 robot and ubuntu. bridge network is a working mode
 that ubuntu in virtual machine directly utilize the physical netcard. 
