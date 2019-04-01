@@ -1,3 +1,34 @@
+****重要：**********************************************************************************************************************
+     关于UR5的URDF文件，平移和旋转表示的意思（妈了个逼，每次都正不清楚），如何看，就是打开UR5的DH_model,只放在ur_description/model.pdf
+     
+     举例： <joint name="${prefix}shoulder_lift_joint" type="revolute">
+      <parent link="${prefix}shoulder_link" />
+      <child link = "${prefix}upper_arm_link" />
+      <origin xyz="0.0 ${shoulder_offset} 0.0" rpy="0.0 ${pi / 2.0} 0.0" />
+      <axis xyz="0 1 0" />
+      <xacro:unless value="${joint_limited}">
+        <limit lower="${-2.0 * pi}" upper="${2.0 * pi}" effort="150.0" velocity="3.15"/>
+      </xacro:unless>
+      <xacro:if value="${joint_limited}">
+        <limit lower="${shoulder_lift_lower_limit}" upper="${shoulder_lift_upper_limit}" effort="150.0" velocity="3.15"/>
+      </xacro:if>
+      <dynamics damping="0.0" friction="0.0"/>
+    </joint>
+    
+    上面这段中的：
+     <origin xyz="0.0 ${shoulder_offset} 0.0" rpy="0.0 ${pi / 2.0} 0.0" />表示的是：
+     该关节的childlink(upper_arm_link)规定的坐标系(参考DHmodel  model.pdf)经过先旋转(rpy="0.0 ${pi / 2.0} 0.0" />) 再平移 xyz="0.0 ${shoulder_offset} 0.0" 使得
+     与该关节的parentlink(should_link)重合，然后还有很重要的是，<axis syz = " 0  1  0" 表示旋转轴是Y轴，那这时候
+     能够在转换矩阵中，唯一改变的参数就是只有ry了，因为以y轴为旋转轴。 说这段话的意思是如何看urdf中的关于坐标系转换，1.如何转(先旋转（至于按何种顺序）进行
+     旋转，我们到时候看具体的dh-model和对应给的urdf文件，当然机器人行业都是以（rz,ry,rx)的顺序进行依次旋转）， 2.一定要记得，是parentlink的坐标系转
+     childlink的坐标系。
+     
+     注：对于别的机器人酌情对照，没有完全一样的。
+    
+
+
+
+
 ****重要：对于UR5 VNC上面的旋转矢量描述的是： 末端坐标系tool0到基座标系的转换矩阵对应的旋转矢量信息。切记切记。
         ：但是对于aubo在器示教器上读取的数据，是通过z轴，y轴，x轴 分别旋转rz,ry,rx的顺序旋转，然后这个求出来的矩阵，是基座标转向末端tool0坐标系
         的转换矩阵，这两点区别一定要注意。
