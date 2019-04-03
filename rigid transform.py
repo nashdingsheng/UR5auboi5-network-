@@ -567,3 +567,18 @@ def quater2homo(quater_para):
 
 
 
+
+
+
+
+C++  旋转矩阵 Eigen::Matrix 对应的Matrix3d/3f等等 ，四元数 Eigen::Quaternion<_Scalar, _Options>，旋转矢量 Eigen::Angle_Axis<_Scaler>，
+      之间的转换可以参考各自类对应的构造函数以及成员函数就能完成所以的转换。
+    由于欧拉角的顺序问题，在Eigen::Geometry中没有很多介绍欧拉角转换，因为当加入顺序自由度会很麻烦，所以留给我们自己进行确立：
+     关于欧拉角转的一种情况(Eigen::Geometry)给出一个简单例子,以后旋转轴顺序可以自己定义：
+     
+    Matrix3f m;
+    m = AngleAxisf(angle1, Vector3f::UnitZ())
+    AngleAxisf(angle2, Vector3f::UnitY())
+    AngleAxisf(angle3, Vector3f::UnitZ());
+     Eigen::Geometry中，还出了一种AngleaAxis类， 其实也是比较好的。 很清晰挣了欧拉角问题，最主要的是在实际的空间几何中，能更加形象表示Affine变换。
+
