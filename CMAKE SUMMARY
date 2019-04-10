@@ -1,3 +1,17 @@
+编译OMPL库：
+    1.	cmake的命令行：F:\projects\motionplanning\buid8>cmake -G "Visual Studio 14 2015 Win64" 
+    -DBOOST_LIBRARYDIR:PATH=F:/projects/motionplanning/local/boost_1_68_0/lib 
+    -DBOOST_INCLUDEDIR:PATH= F:/projects/motionplanning:/local/boost_1_68_0 
+    -DBoost_USE_MULTITHREADED=ON 
+    -DBoost_DEBUG=OFF -DCMAKE_INCLUDE_PATH:STRING=F:\projects\motionplanning\eigen3 
+    ../ompl-master
+    2.	由于windows自带的boostfind.cmake寻找文件的局限性，因此我们把lib中的文件进行了名字的修改，
+    这是因为boostfind.cmake不能把下载的boostboost_1_68_0-msvc-14.0-64版本的lib找到。
+    如果出现找不到依赖库，直接用cmake-gui把在用的项目路径输入放在：where to build the binaries：中，就会显示依赖库目录的信息。
+    如果发现不对即使修改其不对的地方。
+
+
+
 Anyway, we need to trust the official documentations: https://gitlab.kitware.com/cmake/community/wikis/Home#tutorials-1
 i have never read the source code of cmake, it is complicated and challenging for me i think. but i need to brief understand 
 its main method to own these excellent prokect manage ability.
