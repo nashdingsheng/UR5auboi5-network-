@@ -582,3 +582,26 @@ C++  旋转矩阵 Eigen::Matrix 对应的Matrix3d/3f等等 ，四元数 Eigen::Q
     AngleAxisf(angle3, Vector3f::UnitZ());
      Eigen::Geometry中，还出了一种AngleaAxis类， 其实也是比较好的。 很清晰挣了欧拉角问题，最主要的是在实际的空间几何中，能更加形象表示Affine变换。
 
+          
+关于平面上一个向量围绕着某一个固定点进行旋转的问题，图片参考 robot_model.jpg(everything search)        
+        
+def CB_path_planning(p1,p2,start_point,theta_rotate):
+    direction_vector = np.array(p2)-np.array(p1)
+    direction_vector = direction_vector/np.linalg.norm(direction_vector)
+    quaternion_para =[np.cos(theta_rotate/2),direction_vector[0]*np.sin(theta_rotate/2),direction_vector[1]*np.sin(theta_rotate/2),direction_vector[2]*np.sin(theta_rotate/2)]
+    #print('direction_vector',direction_vector)
+    #print('theta_rotate',theta_rotate)
+    #print('quaternion_para',quaternion_para)
+    homo = np.linalg.inv(quater2homo(quaternion_para))
+    #print('homo',homo)
+    return np.dot(homo,start_point - p1) + p1
+
+                
+    #after derive the H1 that from base coordinate to laser coordinate,we need to calculate the quaternion and control robot to move   
+rotate_interval = 3
+for i in range(120):
+    center1 = np.array((253.11803385,-498.0047026,9.49255484))
+    center2 = center1 + (0,0,500)
+    start_point = center2 + (50,50,0)    
+    rotate_point = CB_path_planning(center1,center2,start_point,np.deg2rad(i*rotate_interval))
+    vector = rotate_point - center2
