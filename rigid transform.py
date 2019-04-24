@@ -605,3 +605,25 @@ for i in range(120):
     start_point = center2 + (50,50,0)    
     rotate_point = CB_path_planning(center1,center2,start_point,np.deg2rad(i*rotate_interval))
     vector = rotate_point - center2
+
+    
+    旋轉矢量和四元數的關係，任何刚体变换都可以表示绕着三个坐标轴，这种变换必然存在沿着某一个轴的旋转，所以假设本次变换就是绕着单位矢量(Vx,Vy,Vz),旋转角度theta
+    则旋转矢量就可以表示成为：  （theta*Vx, theta*Vy,theta*Vz） 注意：(Vx,Vy,Vz)是单位向量。
+    四元数可以表示成为：        （cos(theta/2), Vx*sin(theat/2), Vy*sin(theta/2),Vz*sin(theta/2))
+    所以旋转矢量转四元数是非常简单的,如下：
+    def rot_vec2quaternion(rotate_vector):
+        temp = np.linalg.norm(rotate_vector)
+        w = np.cos(np.linalg.norm(rotate_vector)/2)
+        x = np.sqrt(1-w**2)*(rotate_vector[0]/temp)
+        y = np.sqrt(1-w**2)*(rotate_vector[1]/temp)
+        z = np.sqrt(1-w**2)*(rotate_vector[2]/temp)
+        return (w,x,y,z)
+   注意：由于所有的库都是四元数对接的，一般不存在旋转矢量用法，因此我妈需要把旋转矢量按照如上函数换成四元数先，然后再进行一系列的旋转。
+
+
+
+
+
+
+
+
